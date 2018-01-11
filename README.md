@@ -2,7 +2,7 @@
 
 ## Supported tags and `Dockerfile` links
 
-* `1.13-ssl` [Dockerfile](https://github.com/cornernote/docker-nginx/blob/master/Dockerfile)
+* `1.13-ssl` [Dockerfile](https://github.com/cornernote/docker-nginx/blob/1.13-ssl/Dockerfile)
 
 ## Resources
 
