@@ -4,7 +4,6 @@
 
 * `1.9` [Dockerfile](https://github.com/cornernote/docker-nginx/blob/master/Dockerfile)
 
-
 ## Resources
 
 * [Documentation](https://github.com/cornernote/docker-nginx/tree/master/docs)
