@@ -6,3 +6,8 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
+    environment:
+      - DH_SIZE=2048
+      - NGINX_ERROR_LOG_LEVEL=warn
+      - SERVER_NAME=app
+      - FASTCGI_PASS_HOST=php
