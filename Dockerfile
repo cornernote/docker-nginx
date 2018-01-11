@@ -1,9 +1,4 @@
-FROM nginx:stable
-
-# Setup for letsencrypt
-RUN runtimeDeps='inotify-tools openssl' \
-	&& apt-get update && apt-get install -y $runtimeDeps --no-install-recommends
-VOLUME /etc/nginx/dhparam
+FROM nginx:1.9
 
 # Cleanup nginx
 RUN rm /etc/nginx/conf.d/default.conf
