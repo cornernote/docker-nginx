@@ -15,12 +15,12 @@ docker images
 Tag image:
 
 ```
-docker tag XXX cornernote/nginx:1.13-ssl
+docker tag XXX cornernote/nginx:1.9
 ```
 
 Push to hub.docker.com:
 
 ```
 docker login
-docker push cornernote/nginx:1.13-ssl
+docker push cornernote/nginx:1.9
 ```
