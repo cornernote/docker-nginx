@@ -30,9 +30,12 @@ fi
 sed -i "s|\${FASTCGI_PASS_HOST}|${FASTCGI_PASS_HOST}|" /etc/nginx/nginx.conf
 
 # Generate certificates
+if [ ! -n "$DH_SIZE" ] ; then
+    DH_SIZE=2048
+fi
 if [ ! -f /etc/nginx/dhparam/dhparam.pem ]; then
-    echo "dhparam file /etc/nginx/dhparam/dhparam.pem does not exist. Generating one with 4086 bit. This will take a while..."
-    openssl dhparam -out /etc/nginx/dhparam/dhparam.pem 4096 || die "Could not generate dhparam file"
+    echo "dhparam file /etc/nginx/dhparam/dhparam.pem does not exist. Generating one with $DH_SIZE bit. This will take a while..."
+    openssl dhparam -out /etc/nginx/dhparam/dhparam.pem $DH_SIZE || die "Could not generate dhparam file"
     echo "Finished. Starting nginx now..."
 fi
 
