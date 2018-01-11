@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
       context: .
     environment:
+      - USE_SSL=0
       - DH_SIZE=4096
       - NGINX_ERROR_LOG_LEVEL=warn
       - SERVER_NAME=app
