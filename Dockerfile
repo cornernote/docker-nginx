@@ -1,4 +1,4 @@
-FROM nginx:1.9
+FROM nginx:1.13
 
 # Cleanup nginx
 RUN rm /etc/nginx/conf.d/default.conf
