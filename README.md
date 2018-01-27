@@ -3,6 +3,7 @@
 
 ## Supported tags and `Dockerfile` links
 
+* `latest` [Dockerfile](https://github.com/cornernote/docker-nginx/blob/master/Dockerfile)
 * `1.13` [Dockerfile](https://github.com/cornernote/docker-nginx/blob/1.13/Dockerfile)
 
 
