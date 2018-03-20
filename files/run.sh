@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 
 # functions
-function die {
+die() {
     echo >&2 "$@"
     exit 1
 }
