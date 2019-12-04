@@ -1,4 +1,4 @@
-FROM nginx:1.13
+FROM nginx:1.17
 
 # Setup for letsencrypt
 RUN runtimeDeps='inotify-tools openssl' \
