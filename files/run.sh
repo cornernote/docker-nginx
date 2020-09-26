@@ -17,15 +17,25 @@ set -o errexit
 if [ ! -n "$DH_SIZE" ] ; then
     DH_SIZE=2048
 fi
-if [ ! -f /etc/nginx/dhparam/dhparam.pem ]; then
-    echo "dhparam file /etc/nginx/dhparam/dhparam.pem does not exist. Generating one with $DH_SIZE bit. This will take a while..."
-    openssl dhparam -out /etc/nginx/dhparam/dhparam.pem $DH_SIZE || die "Could not generate dhparam file"
-    echo "Finished. Starting nginx now..."
+if [ ! -f /etc/dhparam/dhparam.pem ]; then
+    log "dhparam file /etc/dhparam/dhparam.pem does not exist"
+    openssl dhparam -out /etc/dhparam/dhparam.pem $DH_SIZE || die "Could not generate dhparam file"
+fi
+
+# Generate nginx config from template
+envsubst '$ERROR_LOG_LEVEL $SERVER_NAME $FASTCGI_PASS_HOST' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+
+# Toggle SSL
+if [ "$USE_SSL" = true ] ; then
+    log "SSL is enabled, uncommenting nginx.conf"
+    sed -i -r 's/#?;#//g' /etc/nginx/nginx.conf
+else
+    log "SSL is disabled, commenting nginx.conf"
+    sed -i -r 's/(listen .*443)/\1;#/g; s/(ssl_(certificate|certificate_key|trusted_certificate) )/#;#\1/g' /etc/nginx/nginx.conf
 fi
 
 # Run nginx
-#nginx -g 'daemon off;'
-nginx
+nginx # -g 'daemon off;'
 
 # Check if config or certificates were changed
 while inotifywait -q -r --exclude '\.git/' -e modify,create,delete,move,move_self /etc/nginx /etc/letsencrypt; do
