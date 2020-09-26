@@ -41,6 +41,10 @@ services:
       - ./web:/app/web
     environment:
       - USE_SSL=1
+      # see https://certbot-dns-cloudflare.readthedocs.io/en/stable/
+      - SSL_CLOUDFLARE_EMAIL=0123456789abcdef0123456789abcdef01234567
+      - SSL_CLOUDFLARE_API_KEY=0123456789abcdef0123456789abcdef01234567
+      #or token#- SSL_CLOUDFLARE_TOKEN=0123456789abcdef0123456789abcdef01234567
       - SSL_EMAIL=info@example.com
       - SSL_DOMAIN=example.com
       - DH_SIZE=2048

@@ -6,6 +6,7 @@ RUN apt-get update && \
 	    inotify-tools \
 	    openssl \
 	    certbot \
+	    python3-certbot-dns-cloudflare \
 	    --no-install-recommends && \
 	apt-get -y autoremove && \
         apt-get clean && \
