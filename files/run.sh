@@ -42,7 +42,6 @@ log "Starting nginx"
 nginx # -g 'daemon off;'
 
 # Generate certificate
-echo "dns_cloudflare_api_token = $SSL_CLOUDFLARE_TOKEN" > /etc/cloudflare.ini
 if [ "$USE_SSL" = 1 -a -n "$SSL_EMAIL" -a -n "$SSL_DOMAIN" -a ! -f /etc/letsencrypt/live/$SSL_DOMAIN/privkey.pem ] ; then
     log "Generating SSL certificate"
     CERTBOT_CMD="certbot certonly --noninteractive --agree-tos --email $SSL_EMAIL"
