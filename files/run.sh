@@ -54,13 +54,13 @@ if [ "$USE_SSL" = 1 -a -n "$SSL_EMAIL" -a -n "$SSL_DOMAIN" -a ! -f /etc/letsencr
     else
         CERTBOT_CMD+=" --webroot --webroot-path /var/letsencrypt"
     fi
-    $CERTBOT_CMD -d $SSL_DOMAIN && log "Certificate successfully installed"
+    $CERTBOT_CMD -d $SSL_DOMAIN && \
+    log "Certificate successfully installed - adding SSL to /etc/nginx/nginx.conf" && \
+    sed -i -r 's/#?;#//g' /etc/nginx/nginx.conf && \
+    nginx -s reload
     if [ -f /etc/cloudflare.ini ]; then
         rm -f /etc/cloudflare.ini
     fi
-    log "SSL is enabled - adding SSL to /etc/nginx/nginx.conf"
-    sed -i -r 's/#?;#//g' /etc/nginx/nginx.conf
-    nginx -s reload
 fi
 
 # Check if config or certificates were changed
