@@ -1,9 +1,17 @@
-FROM nginx:1.13
+FROM nginx:1.19
 
 # Setup for letsencrypt
-RUN runtimeDeps='inotify-tools openssl' \
-	&& apt-get update && apt-get install -y $runtimeDeps --no-install-recommends
-VOLUME /etc/nginx/dhparam
+RUN apt-get update && \
+	apt-get install -y \
+	    inotify-tools \
+	    openssl \
+	    --no-install-recommends && \
+	apt-get -y autoremove && \
+        apt-get clean && \
+        rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+VOLUME /etc/dhparam
+VOLUME /etc/letsencrypt
+VOLUME /var/letsencrypt
 
 # Cleanup nginx
 RUN rm /etc/nginx/conf.d/default.conf
