@@ -42,16 +42,23 @@ log "Starting nginx"
 nginx # -g 'daemon off;'
 
 # Generate certificate
+echo "dns_cloudflare_api_token = $SSL_CLOUDFLARE_TOKEN" > /etc/cloudflare.ini
 if [ "$USE_SSL" = 1 -a -n "$SSL_EMAIL" -a -n "$SSL_DOMAIN" -a ! -f /etc/letsencrypt/live/$SSL_DOMAIN/privkey.pem ] ; then
     log "Generating SSL certificate"
-    certbot certonly \
-        --webroot \
-        --webroot-path /var/letsencrypt \
-        --noninteractive \
-        --agree-tos \
-        --email $SSL_EMAIL \
-        -d $SSL_DOMAIN && \
-    log "Certificate successfully installed"
+    CERTBOT_CMD="certbot certonly --noninteractive --agree-tos --email $SSL_EMAIL"
+    if [ -n "$SSL_CLOUDFLARE_TOKEN" ] ; then
+        echo "dns_cloudflare_api_token = $SSL_CLOUDFLARE_TOKEN" > /etc/cloudflare.ini
+        CERTBOT_CMD+=" --dns-cloudflare --dns-cloudflare-credentials /etc/cloudflare.ini"
+    elif [ -n "$SSL_CLOUDFLARE_EMAIL" -a -n "$SSL_CLOUDFLARE_API_KEY" ]; then
+        echo -e "dns_cloudflare_email = $SSL_CLOUDFLARE_EMAIL\ndns_cloudflare_api_key = $SSL_CLOUDFLARE_API_KEY" > /etc/cloudflare.ini
+        CERTBOT_CMD+=" --dns-cloudflare --dns-cloudflare-credentials /etc/cloudflare.ini"
+    else
+        CERTBOT_CMD+=" --webroot --webroot-path /var/letsencrypt"
+    fi
+    $CERTBOT_CMD -d $SSL_DOMAIN && log "Certificate successfully installed"
+    if [ -f /etc/cloudflare.ini ]; then
+        rm -f /etc/cloudflare.ini
+    fi
     log "SSL is enabled - adding SSL to /etc/nginx/nginx.conf"
     sed -i -r 's/#?;#//g' /etc/nginx/nginx.conf
     nginx -s reload
