@@ -40,7 +40,9 @@ services:
       - ./nginx.conf.template:/nginx.conf.template
       - ./web:/app/web
     environment:
-      - USE_SSL=0
+      - USE_SSL=1
+      - SSL_EMAIL=info@example.com
+      - SSL_DOMAIN=example.com
       - DH_SIZE=2048
       - ERROR_LOG_LEVEL=warn
       - SERVER_NAME=example.com

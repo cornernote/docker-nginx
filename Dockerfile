@@ -5,6 +5,7 @@ RUN apt-get update && \
 	apt-get install -y \
 	    inotify-tools \
 	    openssl \
+	    certbot \
 	    --no-install-recommends && \
 	apt-get -y autoremove && \
         apt-get clean && \
