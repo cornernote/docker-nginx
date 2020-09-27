@@ -14,7 +14,9 @@ log() {
 set -o errexit
 
 # Generate nginx config from template
-envsubst '$ERROR_LOG_LEVEL $SERVER_NAME $FASTCGI_PASS_HOST' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+if [ ! -f /etc/nginx/nginx.conf.template ]; then
+    envsubst '$ERROR_LOG_LEVEL $SERVER_NAME $FASTCGI_PASS_HOST' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
+fi
 
 # Toggle SSL
 if [ "$USE_SSL" = 1 ] ; then
