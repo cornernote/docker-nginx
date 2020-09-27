@@ -14,7 +14,16 @@ log() {
 set -o errexit
 
 # Generate nginx config from template
-if [ ! -f /etc/nginx/nginx.conf.template ]; then
+if [ -f /etc/nginx/nginx.conf.template ]; then
+    if [ ! -n "$ERROR_LOG_LEVEL" ] ; then
+        export ERROR_LOG_LEVEL="warn"
+    fi
+    if [ ! -n "$SERVER_NAME" ] ; then
+        export SERVER_NAME="app"
+    fi
+    if [ ! -n "$FASTCGI_PASS_HOST" ] ; then
+        export FASTCGI_PASS_HOST="127.0.0.1:9000"
+    fi
     envsubst '$ERROR_LOG_LEVEL $SERVER_NAME $FASTCGI_PASS_HOST' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf
 fi
 
