@@ -1,4 +1,4 @@
-FROM nginx:1.19
+FROM nginx:1.21
 
 # Setup for letsencrypt
 RUN apt-get update && \
