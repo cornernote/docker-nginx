@@ -9,14 +9,14 @@ docker-compose build
 Tag image:
 
 ```
-docker tag 8adb3c16bb5b cornernote/nginx:1.19
+docker tag c18c7641e143 cornernote/nginx:1.21
 ```
 
 Push to hub.docker.com:
 
 ```
 docker login
-docker push cornernote/nginx:1.19
+docker push cornernote/nginx:1.21
 ```
 
 ## Shell into Image
@@ -35,7 +35,7 @@ version: '3'
 services:
 
   nginx:
-    image: cornernote/nginx:1.19
+    image: cornernote/nginx:1.21
     volumes:
       - ./nginx.conf.template:/nginx.conf.template
       - ./web:/app/web
