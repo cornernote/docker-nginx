@@ -9,7 +9,7 @@ docker-compose build
 Tag image:
 
 ```
-docker tag c18c7641e143 cornernote/nginx:1.21
+docker tag f89c1b3046c8 cornernote/nginx:1.21
 ```
 
 Push to hub.docker.com:
@@ -40,7 +40,8 @@ services:
       - ./nginx.conf.template:/nginx.conf.template
       - ./web:/app/web
     environment:
-      - USE_SSL=1
+      - USE_HTTP=1
+      - USE_HTTPS=0
       # see https://certbot-dns-cloudflare.readthedocs.io/en/stable/
       - SSL_CLOUDFLARE_EMAIL=0123456789abcdef0123456789abcdef01234567
       - SSL_CLOUDFLARE_API_KEY=0123456789abcdef0123456789abcdef01234567
@@ -48,7 +49,8 @@ services:
       - SSL_EMAIL=info@example.com
       - SSL_DOMAIN=example.com
       - DH_SIZE=2048
-      - ERROR_LOG_LEVEL=warn
+      - NGINX_ERROR_LOG_LEVEL=warn
+      - NGINX_BASE_PATH=/app
       - SERVER_NAME=example.com
       - FASTCGI_PASS_HOST=127.0.0.1:9000
     ports:

@@ -7,13 +7,15 @@ services:
       dockerfile: Dockerfile
       context: .
     environment:
-      - USE_SSL=0
+      - USE_HTTP=1
+      - USE_HTTPS=0
       - SSL_CLOUDFLARE_EMAIL=
       - SSL_CLOUDFLARE_API_KEY=
       - SSL_CLOUDFLARE_TOKEN=
       - SSL_EMAIL=
       - SSL_DOMAIN=
       - DH_SIZE=2048
-      - ERROR_LOG_LEVEL=warn
+      - NGINX_ERROR_LOG_LEVEL=warn
+      - NGINX_BASE_PATH=/app
       - SERVER_NAME=app
-      - FASTCGI_PASS_HOST=127.0.0.1:9000
+      - FASTCGI_PASS_HOST=php:9000
